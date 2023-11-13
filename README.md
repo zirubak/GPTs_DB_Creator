@@ -3,6 +3,8 @@
 The current GPTs configration has issue to use mutiple file and performance is not good. This is a simple tool to combine all the text files into one file. You can use this tool to create a text file for GPTs DB and upload to GPTs Configuration.
 This Streamlit-based application automates appending text data from various file formats (PDF, Word, Text, Excel, CSV) into a single text file. It's designed for aggregating and storing text data, facilitating easier data management with GPTs.
 
+![alt text](./pic.png)
+
 ## Prerequisites
 
 - Python 3
