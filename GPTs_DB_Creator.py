@@ -55,6 +55,15 @@ def append_to_file(text, file_path):
         # Write the text to the file
         file.write("\n\n" + text + "\n\n")
 
+# New function to find the latest text file in the 'db' folder
+def find_latest_file(directory):
+    txt_files = [f for f in os.listdir(directory) if f.endswith('.txt')]
+    if not txt_files:
+        return None
+    latest_file = max(txt_files, key=lambda x: os.path.getmtime(os.path.join(directory, x)))
+    return latest_file
+
+
 # Streamlit UI
 # Use HTML to center align the title with bright green color
 st.markdown("""
@@ -77,10 +86,18 @@ if uploaded_file is not None:
     if not os.path.exists('db'):
         os.mkdir('db')
 
-    # Create a file name with the current date
-    file_name = f"gpts_db_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
-    # Create a file path
-    file_path = os.path.join('db', file_name)
+    # Check if a file with today's date exists
+    today_file_name = f"gpts_db_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
+    today_file_path = os.path.join('db', today_file_name)
+
+    # If today's file exists, use it, otherwise find the latest file
+    if os.path.exists(today_file_path):
+        file_path = today_file_path
+    else:
+        latest_file = find_latest_file('db')
+        file_path = os.path.join('db', latest_file) if latest_file else today_file_path
+
+    print("saved file_path: ", file_path)
 
     # Show a spinner while the file is being processed
     with st.spinner('Processing file...'):
